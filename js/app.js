@@ -141,7 +141,7 @@ function showErrors(f, errors, box) {
 /* ---------- month ---------- */
 function renderMonth() {
   const m = S.month, cats = catById();
-  $("#month-title").textContent = monthLabel(m);
+  $("#month-title").textContent = monthLabel(m); $("#today").hidden = m === M.thisMonth();   // only when away from this month
   $("#today").hidden = m === M.thisMonth();
   $("#next").disabled = m >= M.thisMonth();
   const sum = M.monthSummary(S.entries, S.categories, m);

@@ -22,8 +22,8 @@
 <meta name="theme-color" content="#f7e2cf" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1c1a16" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="/app.css?v=7">
-<script type="module" src="/js/app.js?v=4"></script>
+<link rel="stylesheet" href="/app.css?v=8">
+<script type="module" src="/js/app.js?v=5"></script>
 </head>
 <body>
 <div class="bg" aria-hidden="true"></div>
@@ -194,12 +194,14 @@
         <h2 class="card-title" id="data-title" data-w="data">Your Data</h2>
         <p class="note" data-w="dataNote"></p>
         <p class="note warn" id="storage-warn" data-w="storageWarn" hidden></p>
-        <div class="btn-row">
-          <label class="btn ghost file-btn"><span data-w="importExcel">Import Excel</span><input type="file" id="import" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></label>
-          <button type="button" class="ghost" id="export" data-w="exportExcel">Export Excel</button>
-          <button type="button" class="ghost" id="backup" data-w="backup">Download Backup</button>
-          <label class="btn ghost file-btn"><span data-w="restore">Restore Backup</span><input type="file" id="restore" accept=".json,application/json"></label>
-          <button type="button" class="danger" id="wipe" data-w="wipe">Delete Everything</button>
+        <div class="data-rows">
+          <div class="data-row"><span class="data-label" data-w="backupLabel">Backup</span>
+            <button type="button" class="ghost small" id="backup" data-w="download">Download</button>
+            <label class="btn ghost small file-btn"><span data-w="restoreShort">Restore</span><input type="file" id="restore" accept=".json,application/json"></label></div>
+          <div class="data-row"><span class="data-label">Excel</span>
+            <label class="btn ghost small file-btn"><span data-w="importShort">Import</span><input type="file" id="import" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></label>
+            <button type="button" class="ghost small" id="export" data-w="exportShort">Export</button></div>
+          <div class="data-row"><button type="button" class="danger small" id="wipe" data-w="wipe">Delete Everything</button></div>
         </div>
       </section>
       <section class="card" aria-labelledby="pref-title">

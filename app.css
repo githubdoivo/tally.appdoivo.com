@@ -342,3 +342,17 @@ button.primary, button.ghost, button.danger, .btn { min-height: 44px; padding: 0
 svg.ph { fill: currentColor; stroke: none !important; }
 .nav button svg.ph { width: 24px; height: 24px; }
 .brand-mark.ph { width: 30px; height: 30px; }
+
+/* 2026-11-06 (APP-23): nothing changes size between months or languages; text gets room */
+.month-head { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 4px 6px; }
+.month-head h1 { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; font-size: clamp(1.35rem, 5.6vw, 2.1rem); }
+.month-head #today { grid-column: 1 / -1; justify-self: end; margin: 0; }
+@media (min-width: 700px) { .month-head { grid-template-columns: 44px 15ch 44px minmax(0, 1fr); } .month-head #today { grid-column: auto; } }
+.view > h1 { margin-bottom: 18px; }
+.cat-list .more { margin-left: 10px; }
+.cat-list .more summary::after { content: "▾"; margin-left: 8px; }
+.cat-list .more[open] summary::after { content: "▴"; }
+.data-rows { display: grid; gap: 10px; margin-top: 12px; }
+.data-row { display: flex; align-items: center; gap: 8px 10px; flex-wrap: wrap; }
+.data-label { min-width: 72px; font-weight: 600; color: var(--ink-2); }
+@media (max-width: 640px) { .nav button span { white-space: nowrap; } }
