@@ -242,14 +242,3 @@ export function checkBackup(b) {
   return null;
 }
 
-/* ---------- walks: km walked, a quiet personal challenge (not money) ---------- */
-// walk: { id, date "YYYY-MM-DD", km (number, up to 2 decimals), where }
-export const toKm = (v) => { const n = Number(String(v ?? "").replace(",", ".").trim()); return Number.isFinite(n) && n > 0 && n <= 200 ? Math.round(n * 100) / 100 : NaN; };
-export function walkStats(walks, month) {
-  const sum = (ws) => Math.round(ws.reduce((s, w) => s + (w.km || 0), 0) * 100) / 100;
-  const here = walks.filter((w) => monthOf(w.date) === month);
-  const byMonth = new Map(); for (const w of walks) byMonth.set(monthOf(w.date), (byMonth.get(monthOf(w.date)) || 0) + w.km);
-  const bestMonth = [...byMonth.values()].reduce((a, b) => Math.max(a, b), 0);
-  const total = sum(here);
-  return { total, count: here.length, longest: here.reduce((a, w) => Math.max(a, w.km), 0), bestMonth: Math.round(bestMonth * 100) / 100, isBestMonth: total > 0 && total >= bestMonth, list: here.sort((a, b) => b.date.localeCompare(a.date)) };
-}

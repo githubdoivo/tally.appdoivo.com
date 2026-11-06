@@ -425,17 +425,3 @@ test("month notes stay editable until the month's conclusion is made; no going t
   void cur;
 });
 
-test("walks: log km for the month, see the total and the longest walk; the hint reminds to enjoy the walk off the phone", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.locator("#walk-hint")).toBeVisible();
-  const f = page.locator("#walk-form");
-  await f.locator('[name="km"]').fill("abc"); await f.locator('button[type="submit"]').click();
-  await expect(page.locator("#walk-error")).not.toBeEmpty();
-  await f.locator('[name="km"]').fill("5,2"); await f.locator('[name="where"]').fill("Beach"); await f.locator('button[type="submit"]').click();
-  await expect(page.locator("#walk-list li")).toHaveCount(1);
-  await f.locator('[name="km"]').fill("3"); await f.locator('[name="km"]').press("Enter");
-  await expect(page.locator("#walk-total")).toContainText("8.2 km walked in 2 walks");
-  await expect(page.locator("#walk-total")).toContainText("Longest walk: 5.2 km");
-  await page.reload();
-  await expect(page.locator("#walk-list li")).toHaveCount(2);
-});

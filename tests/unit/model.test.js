@@ -157,9 +157,3 @@ test("backups are checked before they replace anything", () => {
   assert.equal(M.checkBackup(null), "bad-backup");
 });
 
-test("walks: km parsed with comma or dot, month total, longest walk and best month", () => {
-  assert.equal(M.toKm("5,25"), 5.25); assert.equal(M.toKm("3.4"), 3.4); assert.ok(Number.isNaN(M.toKm("0"))); assert.ok(Number.isNaN(M.toKm("abc"))); assert.ok(Number.isNaN(M.toKm("500")));
-  const w = [{ date: "2026-10-03", km: 4 }, { date: "2026-10-20", km: 12.5 }, { date: "2026-11-02", km: 6 }, { date: "2026-11-04", km: 3.3 }];
-  const nov = M.walkStats(w, "2026-11"); assert.equal(nov.total, 9.3); assert.equal(nov.count, 2); assert.equal(nov.longest, 6); assert.equal(nov.bestMonth, 16.5); assert.equal(nov.isBestMonth, false);
-  assert.equal(M.walkStats(w, "2026-10").isBestMonth, true); assert.equal(M.walkStats(w, "2026-09").total, 0);
-});

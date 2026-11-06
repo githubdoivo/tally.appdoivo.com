@@ -324,9 +324,17 @@ dialog h2 { font-size: 1.25rem; }
 .doc article h2 { font-size: 1.1rem; margin: 18px 0 6px; }
 .doc article p { max-width: 70ch; }
 
-/* walks: a quiet km tally, not money */
-.walk-total { display: grid; gap: 2px; margin: 0 0 10px; } .walk-total span { color: var(--ink-2); font-size: .9rem; }
-.walk-form { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 8px 10px; align-items: end; }
-.walk-form .f-where { grid-column: 1 / -1; } .walk-form button { grid-column: 1 / -1; justify-self: start; }
-.walk-list { list-style: none; margin: 10px 0 0; padding: 0; } .walk-list li { display: flex; gap: 10px; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--rule); } .walk-list li span:first-child { flex: 1; } .walk-list .sub { color: var(--ink-3); font-size: .85rem; }
-.walk-hint { font-style: italic; }
+
+/* 2026-11-06 feedback: calmer, fewer big buttons. Small actions read as text links;
+   the total is a quiet line with room above it, not a block. */
+button.primary, button.ghost, button.danger, .btn { min-height: 44px; padding: 0 18px; font-size: .95rem; }
+#today, button[data-table] { min-height: 44px; padding: 0 2px; border: 0; border-radius: 0; background: none; color: var(--ink-2); font: 500 .92rem var(--font-body, inherit); text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 4px; }
+#today:hover, button[data-table]:hover { background: none; color: var(--ink); text-decoration-color: currentColor; }
+.summary tfoot th, .summary tfoot td { background: none; border-radius: 0; padding: 16px 0 4px; border-top: 3px double var(--rule); font-size: 1.05rem; }
+.summary tfoot tr:first-child th, .summary tfoot tr:first-child td { }
+.summary tbody tr:last-child th, .summary tbody tr:last-child td { border-bottom: 0; padding-bottom: 12px; }
+.seg { background: none; border: 0; box-shadow: none; padding: 0; gap: 6px 14px; }
+.seg button { min-height: 44px; padding: 0 4px; border-radius: 0; font-size: .98rem; color: var(--ink-2); border-bottom: 2px solid transparent; }
+.seg button[aria-checked="true"] { background: none; color: var(--ink); font-weight: 600; border-bottom-color: var(--accent); }
+.seg button { white-space: nowrap; }
+.hb-bar, .hb-track { height: 8px !important; border-radius: 4px; }

@@ -24,7 +24,7 @@ function h(tag, props = {}, ...kids) {
 }
 
 const S = {
-  entries: [], categories: [], accounts: [], goals: [], conclusions: {}, notes: {}, walks: [],
+  entries: [], categories: [], accounts: [], goals: [], conclusions: {}, notes: {},
   settings: { lang: "en", currency: "EUR", theme: "" },
   view: "month", month: M.thisMonth(), range: "12", searchShown: 200,
 };
@@ -162,22 +162,11 @@ function renderMonth() {
     h("td", { class: "num", text: money(r.total) }))));
   $("#sum-total").textContent = money(sum.spent);
 
-  renderConclusion(m, sum); renderWalks(m);
+  renderConclusion(m, sum);
   const prog = M.accountProgress(S.accounts, S.entries);
   $("#left-card").hidden = !prog.length;
   $("#left-off").replaceChildren(...prog.map((a) => h("li", {}, h("strong", { text: a.name }),
     h("span", { text: a.last ? t("lastEntered", a.last.desc, money(a.last.amount), a.last.date.length === 7 ? monthLabel(a.last.date) : new Date(a.last.date + "T12:00:00").toLocaleDateString(locale(), { day: "numeric", month: "short", year: "numeric" })) : t("nothingYet") }))));
-}
-function renderWalks(m) {
-  const st = M.walkStats(S.walks, m), km = (v) => v.toLocaleString(locale(), { maximumFractionDigits: 2 });
-  $("#walk-total").replaceChildren(h("b", { text: st.count ? t("walkTotal", km(st.total), st.count) : t("walkNone") }),
-    st.count ? h("span", { text: [t("walkBest", km(st.longest)), st.isBestMonth && S.walks.length > st.count ? t("walkBestMonth") : st.bestMonth > st.total ? t("walkBestOf", km(st.bestMonth)) : ""].filter(Boolean).join(" · ") }) : null);
-  let seen = false; try { seen = !!localStorage.getItem("walk-hint"); } catch { /* private mode */ }
-  $("#walk-hint").hidden = seen && S.walks.length > 0;
-  const f = $("#walk-form"); const last = new Date(Date.UTC(...m.split("-").map(Number), 0)).getUTCDate();
-  f.date.min = `${m}-01`; f.date.max = `${m}-${String(last).padStart(2, "0")}`; if (!f.date.value || M.monthOf(f.date.value) !== m) f.date.value = m === M.thisMonth() ? todayISO() : `${m}-01`;
-  $("#walk-list").replaceChildren(...st.list.map((w) => h("li", {}, h("span", { text: `${km(w.km)} km${w.where ? " · " + w.where : ""}` }), h("span", { class: "sub", text: new Date(w.date + "T12:00:00").toLocaleDateString(locale(), { day: "numeric", month: "short" }) }),
-    h("button", { type: "button", class: "icon-btn", "aria-label": `${t("delete")}: ${km(w.km)} km`, text: "×", onclick: async () => { S.walks = S.walks.filter((x) => x !== w); await saveKV("walks"); renderWalks(m); } }))));
 }
 function renderConclusion(m, sum) {
   const done = S.conclusions[m] || "", ended = m < M.thisMonth();
@@ -222,14 +211,6 @@ function setupMonth() {
     f.querySelector(".split-box").open = false;
     rebuildSuggester(); renderMonth(); f.desc.focus();
     toast(t("savedMsg"));
-  });
-  $("#walk-form").addEventListener("submit", async (ev) => {
-    ev.preventDefault(); const f = ev.target, km = M.toKm(f.km.value), date = f.date.value || todayISO();
-    if (!Number.isFinite(km)) { $("#walk-error").textContent = t("errKm"); f.km.focus(); return; }
-    $("#walk-error").textContent = "";
-    S.walks.push({ id: M.uid(), date, km, where: f.where.value.trim().slice(0, 60) }); await saveKV("walks");
-    try { localStorage.setItem("walk-hint", "1"); } catch { /* private mode */ }
-    f.km.value = ""; f.where.value = ""; renderWalks(S.month); toast(t("savedMsg"));
   });
   // Month notes: written during the month, editable until the conclusion is made.
   let timer;
@@ -440,9 +421,8 @@ const stamp = () => todayISO();
 const hasData = () => S.entries.length > 0 || S.goals.length > 0;
 async function replaceState(next) {
   const notes = next.notes && typeof next.notes === "object" ? next.notes : {};
-  const walks = Array.isArray(next.walks) ? next.walks.filter((w) => w && M.isDate(w.date) && Number.isFinite(w.km)) : [];
-  await db.replaceAll({ entries: next.entries, kv: { categories: next.categories, accounts: next.accounts, goals: next.goals, conclusions: next.conclusions, notes, walks, settings: S.settings } });
-  Object.assign(S, { entries: next.entries, categories: next.categories, accounts: next.accounts, goals: next.goals, conclusions: next.conclusions, notes, walks });
+  await db.replaceAll({ entries: next.entries, kv: { categories: next.categories, accounts: next.accounts, goals: next.goals, conclusions: next.conclusions, notes, settings: S.settings } });
+  Object.assign(S, { entries: next.entries, categories: next.categories, accounts: next.accounts, goals: next.goals, conclusions: next.conclusions, notes });
   rebuildSuggester();
 }
 function setupSettings() {
@@ -478,7 +458,7 @@ function setupSettings() {
     download(await exportWorkbook(S, { lang: S.settings.lang, locale: locale(), currency: S.settings.currency }), `${S.settings.lang === "pt" ? "despesas" : "expenses"}-${stamp()}.xlsx`);
   };
   $("#backup").onclick = () => {
-    const b = { app: "expenses", version: M.BACKUP_VERSION, saved: new Date().toISOString(), entries: S.entries, categories: S.categories, accounts: S.accounts, goals: S.goals, conclusions: S.conclusions, notes: S.notes, walks: S.walks, settings: S.settings };
+    const b = { app: "expenses", version: M.BACKUP_VERSION, saved: new Date().toISOString(), entries: S.entries, categories: S.categories, accounts: S.accounts, goals: S.goals, conclusions: S.conclusions, notes: S.notes, settings: S.settings };
     download(new Blob([JSON.stringify(b)], { type: "application/json" }), `tally-backup-${stamp()}.json`);
   };
   $("#restore").addEventListener("change", async (ev) => {
@@ -519,7 +499,7 @@ async function start() {
   const navLang = (navigator.language || "en").toLowerCase().startsWith("pt") ? "pt" : "en";
   S.settings = { lang: navLang, currency: "EUR", theme: "", ...(saved.kv.settings || {}) };
   try { const th = localStorage.getItem("theme"); if (th !== null) S.settings.theme = th; } catch { /* private mode */ }
-  S.entries = saved.entries; S.accounts = saved.kv.accounts || []; S.goals = saved.kv.goals || []; S.conclusions = saved.kv.conclusions || {}; S.notes = saved.kv.notes || {}; S.walks = saved.kv.walks || [];
+  S.entries = saved.entries; S.accounts = saved.kv.accounts || []; S.goals = saved.kv.goals || []; S.conclusions = saved.kv.conclusions || {}; S.notes = saved.kv.notes || {};
   S.categories = saved.kv.categories || [];
   if (!S.categories.length) { S.categories = M.defaultCategories(S.settings.lang); db.setKV("categories", S.categories).catch(storageFailed); }
   applyTheme(); applyWords(); rebuildSuggester();

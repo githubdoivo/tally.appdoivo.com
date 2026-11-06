@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#f7e2cf" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1c1a16" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="/app.css?v=4">
+<link rel="stylesheet" href="/app.css?v=6">
 <script type="module" src="/js/app.js?v=4"></script>
 </head>
 <body>
@@ -95,19 +95,6 @@
           <section class="card" aria-labelledby="sum-title">
             <h2 class="card-title" id="sum-title" data-w="summary">Summary</h2>
             <table class="summary" id="summary"><tbody></tbody><tfoot><tr><th scope="row" data-w="total">Total</th><td class="num" id="sum-total"></td></tr></tfoot></table>
-          </section>
-          <section class="card walks" aria-labelledby="walks-title">
-            <h2 class="card-title" id="walks-title" data-w="walks">Walks</h2>
-            <p class="note walk-hint" id="walk-hint" data-w="walkHint" hidden>Enjoy the walk away from the phone; log it when you're back.</p>
-            <p class="walk-total" id="walk-total"></p>
-            <form class="walk-form" id="walk-form" novalidate autocomplete="off">
-              <label class="f"><span data-w="km">Km</span><input name="km" inputmode="decimal" required></label>
-              <label class="f"><span data-w="date">Date</span><input name="date" type="date"></label>
-              <label class="f f-where"><span data-w="where">Where</span><input name="where" maxlength="60"></label>
-              <button type="submit" class="ghost small" data-w="addWalk">Add Walk</button>
-            </form>
-            <p class="error" id="walk-error" role="alert"></p>
-            <ul class="walk-list" id="walk-list"></ul>
           </section>
           <section class="card" aria-labelledby="notes-title">
             <h2 class="card-title" id="notes-title" data-w="notes">Month Notes</h2>
