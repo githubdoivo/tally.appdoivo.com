@@ -366,3 +366,19 @@ svg.ph { fill: currentColor; stroke: none !important; }
 .data-row button:hover, .data-row .btn:hover { background: var(--accent-soft) !important; }
 .data-row:last-child { justify-content: center; }
 .data-row #wipe { color: var(--bad, #a3262e) !important; }
+
+/* 2026-11-06 (APP-23 round 6): tidy forms. Search: one clear grid (description; category; from + to;
+   min + max; the two switches; Clear at the end). Category "More": a small grid, not a pile of buttons. */
+#search-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; align-items: end; }
+#search-form .f-q, #search-form .f:has(select) { grid-column: 1 / -1; }
+#search-form .f { margin: 0; }
+#search-form .check { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; min-height: 44px; margin: 0; }
+#search-form button[type="reset"] { grid-column: 1 / -1; justify-self: end; }
+#search-form input[type="month"] { min-width: 0; width: 100%; }
+.cat-list .more-body { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px 0 6px; }
+.cat-list .more-body select { grid-column: 1 / -1; }
+.cat-list .more-body button { width: 100%; }
+.cat-list li { padding: 14px 0; }
+.cat-list .more-body { grid-template-columns: 1fr 1fr !important; display: grid !important; }
+.cat-list .more-body > select, .cat-list .more-body > label { grid-column: 1 / -1; width: 100%; }
+.cat-list .more-body > button { grid-column: auto; width: 100%; margin: 0; }

@@ -391,10 +391,9 @@ function renderSettings() {
     });
     const move = (d) => async () => { const other = cats[i + d]; if (!other) return; [c.order, other.order] = [other.order, c.order]; if (c.order === other.order) c.order += d; await saveKV("categories"); renderSettings(); $$("#cat-list li")[i + d]?.querySelector(d < 0 ? "[data-up]" : "[data-down]")?.focus(); };
     // One tidy row: name, entry count, order arrows; the rarer actions sit under More
-    const more = h("details", { class: "more" }, h("summary", { text: t("more") }),
-      h("div", { class: "more-body" }, kind,
+    const more = h("details", { class: "more", ontoggle: (e) => { e.target.querySelector("summary").textContent = e.target.open ? t("less") : t("more"); } }, h("summary", { text: t("more") }),
+      h("div", { class: "more-body" }, kind, merge,
         h("button", { type: "button", class: "ghost small", text: c.hidden ? t("show") : t("hide"), onclick: async () => { c.hidden = !c.hidden; await saveKV("categories"); renderSettings(); } }),
-        merge,
         counts.get(c.id) ? null : h("button", { type: "button", class: "ghost small", text: t("delete"), onclick: async () => { S.categories = S.categories.filter((x) => x !== c); await saveKV("categories"); renderSettings(); } })));
     return h("li", { class: c.hidden ? "muted" : "" }, name,
       h("span", { class: "count", text: t("nEntries", counts.get(c.id) || 0) }),
