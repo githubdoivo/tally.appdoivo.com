@@ -221,7 +221,7 @@ test("settings: add, rename, reorder, hide and merge categories; add an account"
   await page.locator("#cat-list li").last().locator('[data-up]').click();
   await expect(page.locator("#cat-list li").nth(-2).locator('input[type="text"]')).toHaveValue("Pets");
   const transport = page.locator("#cat-list li").filter({ has: page.locator('input[value="Transport"]') });
-  await transport.locator(".more summary").click();
+  await transport.locator(".more-btn").click();
   await transport.locator("select").last().selectOption({ label: "Other" });
   await page.locator("#confirm-yes").click();
   await expect(page.locator('#cat-list input[value="Transport"]')).toHaveCount(0);

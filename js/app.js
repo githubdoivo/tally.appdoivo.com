@@ -391,15 +391,19 @@ function renderSettings() {
     });
     const move = (d) => async () => { const other = cats[i + d]; if (!other) return; [c.order, other.order] = [other.order, c.order]; if (c.order === other.order) c.order += d; await saveKV("categories"); renderSettings(); $$("#cat-list li")[i + d]?.querySelector(d < 0 ? "[data-up]" : "[data-down]")?.focus(); };
     // One tidy row: name, entry count, order arrows; the rarer actions sit under More
-    const more = h("details", { class: "more", ontoggle: (e) => { e.target.querySelector("summary").textContent = e.target.open ? t("less") : t("more"); } }, h("summary", { text: t("more") }),
-      h("div", { class: "more-body" }, kind, merge,
-        h("button", { type: "button", class: "ghost small", text: c.hidden ? t("show") : t("hide"), onclick: async () => { c.hidden = !c.hidden; await saveKV("categories"); renderSettings(); } }),
-        counts.get(c.id) ? null : h("button", { type: "button", class: "ghost small", text: t("delete"), onclick: async () => { S.categories = S.categories.filter((x) => x !== c); await saveKV("categories"); renderSettings(); } })));
-    return h("li", { class: c.hidden ? "muted" : "" }, name,
-      h("span", { class: "count", text: t("nEntries", counts.get(c.id) || 0) }),
-      h("button", { type: "button", class: "icon-btn", "data-up": true, "aria-label": `${t("moveUp")}: ${c.name}`, disabled: i === 0, onclick: move(-1), text: "↑" }),
-      h("button", { type: "button", class: "icon-btn", "data-down": true, "aria-label": `${t("moveDown")}: ${c.name}`, disabled: i === cats.length - 1, onclick: move(1), text: "↓" }),
-      more);
+    // A fixed layout: name on top; count on the left; arrows and More always in the same place on the right;
+    // the rarer actions open in a full-width row underneath (More turns into Less).
+    const body = h("div", { class: "more-body", hidden: true }, kind, merge,
+      h("button", { type: "button", class: "ghost small", text: c.hidden ? t("show") : t("hide"), onclick: async () => { c.hidden = !c.hidden; await saveKV("categories"); renderSettings(); } }),
+      counts.get(c.id) ? null : h("button", { type: "button", class: "ghost small", text: t("delete"), onclick: async () => { S.categories = S.categories.filter((x) => x !== c); await saveKV("categories"); renderSettings(); } }));
+    const toggle = h("button", { type: "button", class: "more-btn", "aria-expanded": "false", text: t("more"), onclick: () => { body.hidden = !body.hidden; toggle.textContent = body.hidden ? t("more") : t("less"); toggle.setAttribute("aria-expanded", String(!body.hidden)); } });
+    return h("li", { class: "cat-row" + (c.hidden ? " muted" : "") }, name,
+      h("div", { class: "cat-bar" },
+        h("span", { class: "count", text: t("nEntries", counts.get(c.id) || 0) }),
+        h("button", { type: "button", class: "icon-btn", "data-up": true, "aria-label": `${t("moveUp")}: ${c.name}`, disabled: i === 0, onclick: move(-1), text: "↑" }),
+        h("button", { type: "button", class: "icon-btn", "data-down": true, "aria-label": `${t("moveDown")}: ${c.name}`, disabled: i === cats.length - 1, onclick: move(1), text: "↓" }),
+        toggle),
+      body);
   }));
   $("#acc-list").replaceChildren(...S.accounts.map((a) => {
     const name = h("input", { type: "text", value: a.name, maxlength: "60", "aria-label": t("accountName") });

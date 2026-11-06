@@ -382,3 +382,14 @@ svg.ph { fill: currentColor; stroke: none !important; }
 .cat-list .more-body { grid-template-columns: 1fr 1fr !important; display: grid !important; }
 .cat-list .more-body > select, .cat-list .more-body > label { grid-column: 1 / -1; width: 100%; }
 .cat-list .more-body > button { grid-column: auto; width: 100%; margin: 0; }
+/* category rows (2026-11-06): one fixed layout */
+.cat-list li.cat-row { display: grid; gap: 8px; padding: 14px 0; }
+.cat-bar { display: grid; grid-template-columns: 1fr 44px 44px 84px; align-items: center; gap: 4px; }
+.cat-bar .count { color: var(--ink-3); font-size: .9rem; }
+.more-btn { min-height: 44px; border: 1px solid var(--rule); border-radius: 10px; background: transparent; color: var(--ink-2); font: 600 .88rem var(--font-head); cursor: pointer; }
+.more-btn[aria-expanded="true"] { background: var(--accent-soft); color: var(--ink); }
+.cat-list .more-body { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cat-list .more-body[hidden] { display: none !important; }
+/* no double-tap zoom; the skip link shows only when reached with the keyboard */
+html { touch-action: manipulation; }
+.skip:not(:focus-visible) { position: absolute !important; left: -9999px !important; }
