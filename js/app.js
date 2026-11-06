@@ -393,10 +393,12 @@ function renderSettings() {
     // One tidy row: name, entry count, order arrows; the rarer actions sit under More
     // A fixed layout: name on top; count on the left; arrows and More always in the same place on the right;
     // the rarer actions open in a full-width row underneath (More turns into Less).
-    const body = h("div", { class: "more-body", hidden: true }, kind, merge,
+    // which categories have More open survives a re-render (Hide/Show re-draws the list)
+    S.openCats = S.openCats || new Set(); const isOpen = S.openCats.has(c.id);
+    const body = h("div", { class: "more-body", hidden: !isOpen }, kind, merge,
       h("button", { type: "button", class: "ghost small", text: c.hidden ? t("show") : t("hide"), onclick: async () => { c.hidden = !c.hidden; await saveKV("categories"); renderSettings(); } }),
       counts.get(c.id) ? null : h("button", { type: "button", class: "ghost small", text: t("delete"), onclick: async () => { S.categories = S.categories.filter((x) => x !== c); await saveKV("categories"); renderSettings(); } }));
-    const toggle = h("button", { type: "button", class: "more-btn", "aria-expanded": "false", text: t("more"), onclick: () => { body.hidden = !body.hidden; toggle.textContent = body.hidden ? t("more") : t("less"); toggle.setAttribute("aria-expanded", String(!body.hidden)); } });
+    const toggle = h("button", { type: "button", class: "more-btn", "aria-expanded": String(isOpen), text: isOpen ? t("less") : t("more"), onclick: () => { body.hidden = !body.hidden; if (body.hidden) S.openCats.delete(c.id); else S.openCats.add(c.id); toggle.textContent = body.hidden ? t("more") : t("less"); toggle.setAttribute("aria-expanded", String(!body.hidden)); } });
     return h("li", { class: "cat-row" + (c.hidden ? " muted" : "") }, name,
       h("div", { class: "cat-bar" },
         h("span", { class: "count", text: t("nEntries", counts.get(c.id) || 0) }),
