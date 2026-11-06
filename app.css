@@ -338,3 +338,7 @@ button.primary, button.ghost, button.danger, .btn { min-height: 44px; padding: 0
 .seg button[aria-checked="true"] { background: none; color: var(--ink); font-weight: 600; border-bottom-color: var(--accent); }
 .seg button { white-space: nowrap; }
 .hb-bar, .hb-track { height: 8px !important; border-radius: 4px; }
+/* Icons (2026-11-06): the same illustrated family as Quill (Phosphor duotone, MIT), filled not stroked */
+svg.ph { fill: currentColor; stroke: none !important; }
+.nav button svg.ph { width: 24px; height: 24px; }
+.brand-mark.ph { width: 30px; height: 30px; }
