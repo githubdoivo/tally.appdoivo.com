@@ -356,3 +356,13 @@ svg.ph { fill: currentColor; stroke: none !important; }
 .data-row { display: flex; align-items: center; gap: 8px 10px; flex-wrap: wrap; }
 .data-label { min-width: 72px; font-weight: 600; color: var(--ink-2); }
 @media (max-width: 640px) { .nav button span { white-space: nowrap; } }
+
+/* 2026-11-06: Your Data as a quiet settings list: a label on the left, short actions on the right */
+.data-rows { display: grid; gap: 0; margin-top: 14px; border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; }
+.data-row { display: flex; align-items: center; justify-content: flex-end; gap: 4px; min-height: 52px; padding: 4px 8px 4px 16px; border-top: 1px solid var(--rule); flex-wrap: nowrap; }
+.data-row:first-child { border-top: 0; }
+.data-row .data-label { margin-right: auto; min-width: 0; font-weight: 600; color: var(--ink); }
+.data-row button, .data-row .btn, .data-row label.btn { min-height: 44px; padding: 0 12px; border: 0 !important; border-radius: 10px; background: transparent !important; color: var(--accent-ink-text, var(--accent)); font-weight: 600; box-shadow: none !important; }
+.data-row button:hover, .data-row .btn:hover { background: var(--accent-soft) !important; }
+.data-row:last-child { justify-content: center; }
+.data-row #wipe { color: var(--bad, #a3262e) !important; }
