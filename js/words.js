@@ -3,7 +3,7 @@
 // PT: European Portuguese, impersonal (never "tu"), gender-neutral.
 export const WORDS = {
   en: {
-    brand: "Tally", tagline: "Your Money, Month by Month",
+    brand: "tallydoivo", tagline: "Your Money, Month by Month",
     navMonth: "Month", navSearch: "Search", navCharts: "Charts", navShared: "Split Bills", navGoals: "Goals", navSettings: "Settings",
     prevMonth: "Previous Month", nextMonth: "Next Month", today: "This Month",
     spent: "Spent", saved: "Saved", entries: "Entries",
@@ -38,7 +38,7 @@ export const WORDS = {
     editTitle: "Edit Expense", moreOptions: "More Options",
   },
   pt: {
-    brand: "Tally", tagline: "O Seu Dinheiro, Mês a Mês",
+    brand: "tallydoivo", tagline: "O Seu Dinheiro, Mês a Mês",
     navMonth: "Mês", navSearch: "Pesquisar", navCharts: "Gráficos", navShared: "Dividir", navGoals: "Objetivos", navSettings: "Definições",
     prevMonth: "Mês Anterior", nextMonth: "Mês Seguinte", today: "Este Mês",
     spent: "Gasto", saved: "Poupado", entries: "Entradas",

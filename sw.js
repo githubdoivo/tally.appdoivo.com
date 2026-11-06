@@ -1,7 +1,7 @@
 // Offline support: the app shell is cached on install;
 // a new version (VERSION bump) replaces the old cache. No data is ever cached
 // here — the expenses live in IndexedDB.
-const VERSION = "tally-v6";
+const VERSION = "tally-v7";
 const SHELL = ["/", "/index.html", "/app.css?v=9", "/js/app.js?v=5", "/js/frame.js", "/img/paper.webp", "/js/model.js", "/js/db.js", "/js/words.js", "/js/charts.js", "/js/excel.js", "/js/xlsx.js", "/privacy.html", "/manifest.webmanifest", "/icons/icon.svg", "/icons/icon-192.png", "/icons/icon-512.png", "/icons/apple-touch-icon.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });

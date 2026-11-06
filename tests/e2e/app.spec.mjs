@@ -252,7 +252,8 @@ test("Portuguese: every label switches, and headings and buttons are in Title Ca
     const bad = [];
     for (const s of texts) {
       const words = s.replace(/[()…:]/g, " ").split(/\s+/).filter(Boolean);
-      words.forEach((w, i) => { if (!/^\p{L}/u.test(w)) return; if (i && SMALL[lang].has(w)) return; if (w[0] !== w[0].toUpperCase()) bad.push(`${s} [${w}]`); });
+      words.forEach((w, i) => { if (!/^\p{L}/u.test(w) || /doivo$/.test(w)) return;   // the brand is lowercase on purpose (tallydoivo)
+ if (i && SMALL[lang].has(w)) return; if (w[0] !== w[0].toUpperCase()) bad.push(`${s} [${w}]`); });
     }
     expect(bad, lang).toEqual([]);
   }
