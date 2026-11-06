@@ -1,6 +1,6 @@
 {
-  "name": "Ledger",
-  "short_name": "Ledger",
+  "name": "Tally",
+  "short_name": "Tally",
   "description": "Your money, month by month. Everything stays on your device.",
   "id": "/",
   "start_url": "/",

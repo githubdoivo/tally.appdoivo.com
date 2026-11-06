@@ -479,7 +479,7 @@ function setupSettings() {
   };
   $("#backup").onclick = () => {
     const b = { app: "expenses", version: M.BACKUP_VERSION, saved: new Date().toISOString(), entries: S.entries, categories: S.categories, accounts: S.accounts, goals: S.goals, conclusions: S.conclusions, notes: S.notes, walks: S.walks, settings: S.settings };
-    download(new Blob([JSON.stringify(b)], { type: "application/json" }), `ledger-backup-${stamp()}.json`);
+    download(new Blob([JSON.stringify(b)], { type: "application/json" }), `tally-backup-${stamp()}.json`);
   };
   $("#restore").addEventListener("change", async (ev) => {
     const file = ev.target.files[0]; ev.target.value = ""; if (!file) return;

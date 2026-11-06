@@ -1,6 +1,6 @@
-# ledger.appdoivo.com
+# tally.appdoivo.com
 
-**Ledger** (the same name in EN and PT; it was Expenses / Despesas until 2026-11-05): money month by month, grown out of Ivo's own expenses
+**Tally** (the same name in EN and PT; it was Expenses / Despesas, then Ledger, renamed to Tally on 2026-11-06): money month by month, grown out of Ivo's own expenses
 spreadsheet. Laptop-first (lots of desktop use) and just as usable on a phone, installable,
 works offline. **Everything stays on the device**: no account, no server, no tracking.
 
